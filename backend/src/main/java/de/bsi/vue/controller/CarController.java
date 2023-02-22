@@ -2,23 +2,28 @@ package de.bsi.vue.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
-@RequestMapping("/car")
+@RequestMapping("/api/car")
+@CrossOrigin(origins = "*")
 public class CarController {
+
+    List<Car> cars = new ArrayList<>();
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String readCar() {
-        return """
-                {
-                    "CarMake": "Tesla"
-                }
-                """;
+    public List<Car> readCars() {
+        return cars;
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createCar(@RequestBody Car newCar) {
+        cars.add(newCar);
     }
 
 }
